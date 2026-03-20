@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Sarabun', sans-serif;
+      background: linear-gradient(to bottom, #8B0000, #FF6666);
+      margin: 0; padding: 20px; min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; color: #333;
+    }
+    .board-container {
+      background: rgba(255, 255, 255, 0.95); width: 100%; max-width: 400px;
+      border-radius: 15px; padding: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); box-sizing: border-box;
+    }
+    h2 { text-align: center; color: #8B0000; margin-top: 0; margin-bottom: 20px; }
+    .top-three { text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #eee; }
+    
+    .first-place { font-size: 24px; font-weight: bold; color: #d4af37; margin-bottom: 12px;}
+    .second-third-place { font-size: 18px; font-weight: 600; color: #555; margin-bottom: 6px;}
+    
+    .rank-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 10px; border-bottom: 1px solid #f0f0f0; background: #fff;
+      border-radius: 8px; margin-bottom: 8px;
+    }
+    .rank-number { font-weight: bold; color: #8B0000; width: 30px; }
+    .rank-name { flex-grow: 1; text-align: left; white-space: normal; word-wrap: break-word; padding-right: 10px; }
+    .rank-score { font-weight: bold; white-space: nowrap; }
+    .footer-text { color: gray; text-align: center; font-size: 12px; margin-top: auto; padding-top: 20px; }
+  </style>
+</head>
+<body>
+  <div class="board-container">
+    <h2>🏆 อันดับก้าวเดินสะสม</h2>
+    <div id="loading" style="text-align: center;">กำลังโหลดข้อมูล...</div>
+    <div id="top-three-container" class="top-three" style="display: none;"></div>
+    <div id="list-container" style="display: none;"></div>
+  </div>
+  <div class="footer-text">ระบบลงทะเบียนพนักงาน © 2026 Internal Use Only Channel Academy&Communication</div>
+
+  <script>
+    google.script.run.withSuccessHandler(displayLeaderboard).getLeaderboardData();
+
+    function displayLeaderboard(data) {
+      document.getElementById('loading').style.display = 'none';
+      const topContainer = document.getElementById('top-three-container');
+      const listContainer = document.getElementById('list-container');
+      
+      if (data.length === 0) {
+        listContainer.innerHTML = "<div style='text-align:center;'>ยังไม่มีข้อมูลก้าวเดิน</div>";
+        listContainer.style.display = 'block'; return;
+      }
+
+      topContainer.style.display = 'block'; listContainer.style.display = 'block';
+
+      let topHtml = '';
+      for (let i = 0; i < Math.min(3, data.length); i++) {
+        const p = data[i];
+        const fullName = `${p.firstName} ${p.lastName}`;
+        if (i === 0) {
+          topHtml += `<div class="first-place">🏆 อันดับ 1<br>${fullName}<br>${p.steps.toLocaleString()} ก้าว</div>`;
+        } else {
+          topHtml += `<div class="second-third-place">🏆 อันดับ ${i+1}: ${fullName} (${p.steps.toLocaleString()} ก้าว)</div>`;
+        }
+      }
+      topContainer.innerHTML = topHtml;
+
+      let listHtml = '';
+      for (let i = 3; i < data.length; i++) {
+        const p = data[i];
+        listHtml += `
+          <div class="rank-item">
+            <div class="rank-number">${i+1}.</div>
+            <div class="rank-name">${p.firstName} ${p.lastName}</div>
+            <div class="rank-score">${p.steps.toLocaleString()}</div>
+          </div>
+        `;
+      }
+      listContainer.innerHTML = listHtml;
+    }
+  </script>
+</body>
+</html>
