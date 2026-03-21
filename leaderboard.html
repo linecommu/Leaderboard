@@ -7,9 +7,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #D32F2F;      /* สีแดงหลัก */
+      --primary: #D32F2F;
       --primary-light: #FF6666;
-      --bg-color: #F4F7F6;     /* สีพื้นหลังสว่างสบายตา */
+      --bg-color: #F4F7F6;
       --card-bg: #FFFFFF;
       --gold: #FFD700;
       --silver: #C0C0C0;
@@ -18,105 +18,44 @@
       --text-sub: #7F8C8D;
     }
     
-    body {
-      font-family: 'Sarabun', sans-serif;
-      background-color: var(--bg-color);
-      margin: 0;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-
-    /* ส่วนหัวของหน้าเว็บ */
-    .header {
-      font-family: 'Kanit', sans-serif;
-      text-align: center;
-      margin-bottom: 30px;
-      width: 100%;
-      max-width: 450px;
-    }
-    .header h2 { 
-      margin: 0; 
-      font-size: 28px; 
-      background: linear-gradient(45deg, var(--primary), var(--primary-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 600; 
-      letter-spacing: 0.5px;
-    }
+    body { font-family: 'Sarabun', sans-serif; background-color: var(--bg-color); margin: 0; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+    .header { font-family: 'Kanit', sans-serif; text-align: center; margin-bottom: 30px; width: 100%; max-width: 450px; }
+    .header h2 { margin: 0; font-size: 28px; background: linear-gradient(45deg, var(--primary), var(--primary-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 600; letter-spacing: 0.5px; }
     .header p { margin: 5px 0 0; font-size: 14px; color: var(--text-sub); }
 
-    /* แท่นรางวัล Top 3 (Podium) */
-    .podium-container {
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      gap: 12px;
-      margin-bottom: 35px;
-      width: 100%;
-      max-width: 450px;
-      min-height: 160px; /* จองพื้นที่ไว้กันจอกระตุก */
-    }
-    .podium-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 15px 8px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      width: 30%;
-      text-align: center;
-      position: relative;
-      transition: transform 0.3s ease;
-    }
+    /* แท่นรางวัล Top 3 */
+    .podium-container { display: flex; justify-content: center; align-items: flex-end; gap: 12px; margin-bottom: 35px; width: 100%; max-width: 450px; min-height: 160px; }
+    .podium-item { display: flex; flex-direction: column; align-items: center; background: var(--card-bg); border-radius: 16px; padding: 15px 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.06); width: 30%; text-align: center; position: relative; transition: transform 0.3s ease; }
     .podium-item:hover { transform: translateY(-5px); }
     
-    /* ตกแต่งกรอบและขนาดของแต่ละอันดับ */
     .podium-item.rank-1 { width: 38%; z-index: 2; transform: translateY(-20px); border: 2px solid var(--gold); box-shadow: 0 12px 30px rgba(255, 215, 0, 0.2); }
     .podium-item.rank-1:hover { transform: translateY(-25px); }
     .podium-item.rank-2 { border: 2px solid var(--silver); }
     .podium-item.rank-3 { border: 2px solid var(--bronze); }
 
-    .medal { font-size: 36px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-    .rank-1 .medal { font-size: 48px; margin-bottom: 12px; }
+    /* 🌟 สไตล์รูปโปรไฟล์บน Podium 🌟 */
+    .podium-pic { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 2px solid var(--card-bg); margin-bottom: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); background-color: #E0E0E0; }
+    .rank-1 .podium-pic { width: 60px; height: 60px; border-width: 3px; }
 
-    .podium-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; color: var(--text-main); line-height: 1.2; word-break: break-word; }
+    .medal { font-size: 24px; margin-bottom: -15px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); z-index: 3; position: relative; }
+    .rank-1 .medal { font-size: 32px; margin-bottom: -18px; }
+
+    .podium-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; margin-top: 15px; color: var(--text-main); line-height: 1.2; word-break: break-word; }
     .podium-score { font-family: 'Kanit', sans-serif; font-weight: 600; font-size: 16px; color: var(--primary); }
     .rank-1 .podium-score { font-size: 22px; }
     .podium-unit { font-size: 11px; color: var(--text-sub); font-weight: 400; }
 
     /* รายการอันดับ 4-50 */
-    .list-container {
-      width: 100%;
-      max-width: 450px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .list-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--card-bg);
-      border-radius: 14px;
-      padding: 16px 20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-      transition: all 0.2s ease;
-    }
+    .list-container { width: 100%; max-width: 450px; display: flex; flex-direction: column; gap: 12px; }
+    .list-item { display: flex; align-items: center; justify-content: space-between; background: var(--card-bg); border-radius: 14px; padding: 12px 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: all 0.2s ease; }
     .list-item:active { transform: scale(0.98); background-color: #FAFAFA; }
     
-    .list-rank {
-      font-family: 'Kanit', sans-serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: #BDC3C7;
-      width: 35px;
-      text-align: left;
-    }
-    .list-info { flex-grow: 1; padding: 0 10px; }
+    .list-rank { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 600; color: #BDC3C7; width: 35px; text-align: left; }
+    
+    /* 🌟 สไตล์รูปโปรไฟล์ใน List 🌟 */
+    .list-pic { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 12px; border: 1px solid #E0E0E0; background-color: #F0F0F0; }
+
+    .list-info { flex-grow: 1; display: flex; align-items: center; }
     .list-name { font-weight: 600; font-size: 16px; color: var(--text-main); margin-bottom: 2px; }
     .list-score-container { text-align: right; }
     .list-score { font-family: 'Kanit', sans-serif; font-size: 18px; font-weight: 600; color: var(--primary); }
@@ -148,6 +87,7 @@
   <script>
     // ========= ตั้งค่า URL ของ GAS ตรงนี้ =========
     const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbywpUQFxq4D8hrROE4cUKUJiESWO6u9_FbNecjre7oAYL11gzHeBQMcIUsnlkoaqKbhUQ/exec';
+    const DEFAULT_AVATAR = 'https://cdn-icons-png.flaticon.com/512/847/847969.png'; // รูปโปรไฟล์เริ่มต้น
     // =============================================
 
     window.onload = fetchLeaderboard;
@@ -177,27 +117,28 @@
       podiumContainer.style.display = 'flex';
       listContainer.style.display = 'flex';
 
-      // 1. จัดการ Top 3 (จัดเรียงตำแหน่ง: ที่ 2 อยู่ซ้าย, ที่ 1 อยู่กลาง, ที่ 3 อยู่ขวา)
+      // 1. จัดการ Top 3
       let podiumHtml = '';
       const top3 = data.slice(0, 3);
-      const displayOrder = [1, 0, 2]; // Index ของ array: [ที่ 2, ที่ 1, ที่ 3]
+      const displayOrder = [1, 0, 2];
 
       displayOrder.forEach(index => {
         if (top3[index]) {
           const p = top3[index];
           const rank = index + 1;
           const medal = rank === 1 ? '🥇' : rank === 2 ? '🥈' : '🥉';
-          const formatName = p.firstName + (p.lastName ? ` ${p.lastName.charAt(0)}.` : ''); // ย่อชื่อนามสกุลให้สวยงาม
+          const formatName = p.firstName + (p.lastName ? ` ${p.lastName.charAt(0)}.` : '');
+          const profilePic = p.pictureUrl || DEFAULT_AVATAR; // ใส่รูป ถ้าไม่มีใช้รูปเริ่มต้น
 
           podiumHtml += `
             <div class="podium-item rank-${rank}">
               <div class="medal">${medal}</div>
+              <img class="podium-pic" src="${profilePic}" alt="Profile">
               <div class="podium-name">${formatName}</div>
               <div class="podium-score">${p.steps.toLocaleString()}<br><span class="podium-unit">ก้าว</span></div>
             </div>
           `;
         } else {
-          // ใส่กล่องล่องหนไว้ดันทรง กรณีมีคนในระบบไม่ถึง 3 คน
           podiumHtml += `<div class="podium-item" style="visibility:hidden;"></div>`;
         }
       });
@@ -207,10 +148,13 @@
       let listHtml = '';
       for (let i = 3; i < data.length; i++) {
         const p = data[i];
+        const profilePic = p.pictureUrl || DEFAULT_AVATAR;
+
         listHtml += `
           <div class="list-item">
             <div class="list-rank">${i + 1}</div>
             <div class="list-info">
+              <img class="list-pic" src="${profilePic}" alt="Profile">
               <div class="list-name">${p.firstName} ${p.lastName}</div>
             </div>
             <div class="list-score-container">
